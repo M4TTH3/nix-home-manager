@@ -49,7 +49,7 @@
     settings = {
       user.name = "M4TTH3";
       user.email = "matthewau-yeung@hotmail.com";
-      core.editor = "vim";
+      core.editor = "nvim";
       gpg.ssh.program = "/opt/1Password/op-ssh-sign";
       gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
     };
@@ -57,6 +57,8 @@
 
   home.sessionVariables = {
     SSH_AUTH_SOCK = "${config.home.homeDirectory}/.1password/agent.sock";
+    EDITOR = "nvim";
+    VISUAL = "nvim";
   };
 
   home.file.".ssh/allowed_signers".text =
