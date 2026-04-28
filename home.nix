@@ -4,21 +4,20 @@
   home.stateVersion = "25.11";
 
   home.packages = with pkgs; [
-    # Editor
-    neovim
-
     # Core CLI
+    neovim
     ripgrep
     fd
     tree-sitter
+    wl-clipboard
 
     # Languages / runtimes
     go
+    gotools
     python3
     jdk
     nodejs
     clang
-    clang-tools
     rustc
     cargo
     rustfmt
@@ -42,6 +41,11 @@
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
+  };
+
+  home.shellAliases = {
+    vi = "nvim";
+    vim = "nvim";
   };
 
   programs.git = {
