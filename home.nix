@@ -48,6 +48,8 @@
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
+    withRuby = false;
+    withPython3 = false;
     extraPackages = with pkgs; [
       # Add neovim-specific tools here that aren't in home.packages
     ];
