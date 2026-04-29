@@ -43,6 +43,16 @@ LSP servers and tools are managed inside neovim by [Mason](https://github.com/ma
 
 ## First-time install on a new machine
 
-1. Install Determinate Nix.
-2. Clone this repo to `~/.config/home-manager/`.
-3. `nix run home-manager/master -- switch --flake ~/.config/home-manager#m4tth3`
+1. Install Determinate Nix:
+   ```bash
+   curl -fsSL https://install.determinate.systems/nix | sh -s -- install
+   ```
+   Restart the shell afterward so `nix` is on PATH.
+2. Clone this repo to `~/.config/home-manager/`:
+   ```bash
+   git clone git@github.com:M4TTH3/nix-home-manager.git ~/.config/home-manager
+   ```
+3. Apply the config:
+   ```bash
+   nix run home-manager/master -- switch --flake ~/.config/home-manager#m4tth3
+   ```
