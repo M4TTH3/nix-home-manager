@@ -5,13 +5,13 @@
 
   home.packages = with pkgs; [
     # Core CLI
-    neovim
     ripgrep
     fd
     tree-sitter
     wl-clipboard
 
     # Languages / runtimes
+    gnumake
     go
     gotools
     python3
@@ -43,9 +43,21 @@
     nix-direnv.enable = true;
   };
 
-  home.shellAliases = {
-    vi = "nvim";
-    vim = "nvim";
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+    extraPackages = with pkgs; [
+      # Add neovim-specific tools here that aren't in home.packages
+    ];
+  };
+
+  # Recursively links ./nvim (git submodule: github.com/M4TTH3/nvim-config)
+  # to ~/.config/nvim, letting neovim find its config without home-manager managing it
+  xdg.configFile."nvim" = {
+    source = ./nvim;
+    recursive = true;
   };
 
   programs.git = {
@@ -66,8 +78,6 @@
 
   home.sessionVariables = {
     SSH_AUTH_SOCK = "${config.home.homeDirectory}/.1password/agent.sock";
-    EDITOR = "nvim";
-    VISUAL = "nvim";
   };
 
   home.file.".ssh/allowed_signers".text =
