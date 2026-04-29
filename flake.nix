@@ -7,13 +7,9 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nvim-config = {
-      url = "github:M4TTH3/nvim-config";
-      flake = false;
-    };
   };
 
-  outputs = { nixpkgs, home-manager, nvim-config, ... }:
+  outputs = { nixpkgs, home-manager, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -24,7 +20,6 @@
       homeConfigurations."m4tth3" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [ ./home.nix ];
-        extraSpecialArgs = { inherit nvim-config; };
       };
     };
 }

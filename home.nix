@@ -1,4 +1,4 @@
-{ pkgs, config, nvim-config, ... }: {
+{ pkgs, config, ... }: {
   home.username = "m4tth3";
   home.homeDirectory = "/home/m4tth3";
   home.stateVersion = "25.11";
@@ -53,10 +53,10 @@
     ];
   };
 
-  # Recursively links nvim-config flake input (github.com/M4TTH3/nvim-config)
-  # to ~/.config/nvim, letting neovim find its config without home-manager managing it
+  # Recursively links ./nvim to ~/.config/nvim, letting neovim find its config
+  # without home-manager managing it
   xdg.configFile."nvim" = {
-    source = nvim-config;
+    source = ./nvim;
     recursive = true;
   };
 
