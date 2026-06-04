@@ -12,6 +12,7 @@ return {
 			"kotlin_lsp",
 			"jdtls",
 			"clangd",
+			"rust_analyzer",
 			"yamlls",
 			"dockerls",
 			"docker_compose_language_service",
@@ -51,10 +52,29 @@ return {
 			},
 		})
 
+		vim.lsp.config("rust_analyzer", {
+			settings = {
+				["rust-analyzer"] = {
+					completion = {
+						autoimport = { enable = true },
+						callable = { snippets = "fill_arguments" },
+					},
+					cargo = { allFeatures = true },
+					checkOnSave = true,
+					inlayHints = {
+						bindingModeHints = { enable = false },
+						closureReturnTypeHints = { enable = "with_block" },
+						parameterHints = { enable = true },
+						typeHints = { enable = true },
+					},
+				},
+			},
+		})
+
 		-- Enable all servers
 		vim.lsp.enable({
 			"lua_ls", "pyright", "ts_ls", "gopls", "bashls", "jsonls",
-			"kotlin_lsp", "clangd", "yamlls", "dockerls",
+			"kotlin_lsp", "clangd", "rust_analyzer", "yamlls", "dockerls",
 			"docker_compose_language_service", "html", "cssls", "tailwindcss",
 		})
 
@@ -75,6 +95,15 @@ return {
 				map("<leader>ca", vim.lsp.buf.code_action, "Code action")
 				map("<leader>rn", vim.lsp.buf.rename, "Rename symbol")
 				map("<leader>cd", vim.diagnostic.open_float, "Line diagnostics")
+
+				-- Inlay hints (type/parameter annotations shown inline)
+				local client = vim.lsp.get_client_by_id(ev.data.client_id)
+				if client and client:supports_method("textDocument/inlayHint") then
+					vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+					map("<leader>th", function()
+						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = ev.buf }), { bufnr = ev.buf })
+					end, "Toggle inlay hints")
+				end
 				map("[d", function() vim.diagnostic.jump({ count = -1 }) end, "Previous diagnostic")
 				map("]d", function() vim.diagnostic.jump({ count = 1 }) end, "Next diagnostic")
 			end,

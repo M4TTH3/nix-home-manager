@@ -1,6 +1,6 @@
 # Home Manager Setup
 
-Standalone flake-based Home Manager on Ubuntu (Determinate Nix).
+Standalone flake-based Home Manager. Configured for both Ubuntu (`m4tth3-linux`) and macOS (`m4tth3-mac`), using Determinate Nix.
 
 ## Files
 
@@ -11,13 +11,18 @@ Standalone flake-based Home Manager on Ubuntu (Determinate Nix).
 
 ## Commands
 
+Pick the attribute that matches the host: `m4tth3-linux` on Ubuntu, `m4tth3-mac` on macOS.
+
 ```bash
-# Apply changes after editing home.nix
-home-manager switch --flake ~/.config/home-manager#m4tth3
+# Apply changes after editing home.nix (Linux)
+home-manager switch --flake ~/.config/home-manager#m4tth3-linux
+
+# Apply changes after editing home.nix (macOS)
+home-manager switch --flake ~/.config/home-manager#m4tth3-mac
 
 # Update package versions
 nix flake update --flake ~/.config/home-manager
-home-manager switch --flake ~/.config/home-manager#m4tth3
+home-manager switch --flake ~/.config/home-manager#m4tth3-linux  # or #m4tth3-mac
 
 # Rollback
 home-manager generations
@@ -52,7 +57,11 @@ LSP servers and tools are managed inside neovim by [Mason](https://github.com/ma
    ```bash
    git clone git@github.com:M4TTH3/nix-home-manager.git ~/.config/home-manager
    ```
-3. Apply the config:
+3. Apply the config (pick the attribute for the host):
    ```bash
-   nix run home-manager/master -- switch --flake ~/.config/home-manager#m4tth3
+   # Ubuntu
+   nix run home-manager/master -- switch --flake ~/.config/home-manager#m4tth3-linux
+
+   # macOS
+   nix run home-manager/master -- switch --flake ~/.config/home-manager#m4tth3-mac
    ```

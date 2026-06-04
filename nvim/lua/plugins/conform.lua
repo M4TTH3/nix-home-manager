@@ -33,7 +33,8 @@ return {
 				yaml = { "prettier" },
 				markdown = { "prettier" },
 				java = { "google-java-format" },
-				kotlin = { "ktfmt" }
+				kotlin = { "ktfmt" },
+				rust = { "rustfmt" },
 			},
 			default_format_opts = {
 				lsp_format = "fallback",
