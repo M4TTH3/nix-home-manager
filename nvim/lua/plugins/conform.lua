@@ -35,6 +35,8 @@ return {
 				java = { "google-java-format" },
 				kotlin = { "ktfmt" },
 				rust = { "rustfmt" },
+				proto = { "buf" },
+				bzl = { "buildifier" },
 			},
 			default_format_opts = {
 				lsp_format = "fallback",

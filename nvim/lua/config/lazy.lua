@@ -24,7 +24,9 @@ require("lazy").setup({
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
   install = { colorscheme = { "habamax" } },
-  -- automatically check for plugin updates
-  checker = { enabled = true },
+  -- Background update checks and config-file auto-reload both reload plugins
+  -- mid-session, which drops which-key's leader trigger. Disable both.
+  checker = { enabled = false },
+  change_detection = { enabled = false },
 })
 

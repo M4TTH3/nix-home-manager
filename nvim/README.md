@@ -49,7 +49,7 @@ brew install ktfmt
 
 ### LSP Servers
 
-LSP servers are managed automatically by **Mason** (`:Mason`). No manual installation needed — servers are installed on first use.
+LSP servers are installed by **Nix** (home-manager `home.packages`), not Mason. They land on `$PATH` in the Nix profile; nvim-lspconfig supplies each server's default config and `vim.lsp.enable` starts them. To add a server: add its package in `home.nix`, then list its lspconfig name in `lua/plugins/lsp.lua`.
 
 ## Setup
 
@@ -91,7 +91,7 @@ See the full cheatsheet: `<Space><Space>?` or `:Cheatsheet`
 | File picker | snacks.nvim (picker) |
 | File explorer | snacks.nvim (explorer) |
 | Completion | blink.cmp + LuaSnip |
-| LSP | mason + nvim-lspconfig |
+| LSP | Nix (home.packages) + nvim-lspconfig |
 | Linting | nvim-lint |
 | Formatting | conform.nvim |
 | Git | gitsigns.nvim + lazygit |

@@ -17,7 +17,7 @@ return {
 				"vim", "lua", "luadoc", "python", "typescript", "javascript",
 				"kotlin", "java", "go", "elixir", "sql", "json", "yaml",
 				"markdown", "markdown_inline", "html", "css", "dockerfile",
-				"toml", "rust", "bash", "regex", "tsx",
+				"toml", "rust", "bash", "regex", "tsx", "proto", "starlark",
 			}
 			for _, parser in ipairs(parsers) do
 				pcall(function()

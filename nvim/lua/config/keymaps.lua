@@ -4,6 +4,17 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+-- mini.pairs auto-closes ', which fights Rust lifetimes ('a). Disable single-quote
+-- pairing in Rust buffers. (Char literals like 'a' lose autoclose — fine tradeoff.)
+-- Registered here (not in the lazy-loaded mini.pairs spec) so it survives the
+-- plugin's InsertEnter lazy-load; a buffer-local map overrides mini.pairs' global.
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "rust",
+	callback = function()
+		vim.keymap.set("i", "'", "'", { buffer = true })
+	end,
+})
+
 -- Disable netrw at the very start
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1

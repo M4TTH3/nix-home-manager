@@ -1,34 +1,10 @@
 return {
-	"mason-org/mason-lspconfig.nvim",
+	"neovim/nvim-lspconfig",
 	lazy = false,
-	opts = {
-		ensure_installed = {
-			"lua_ls",
-			"pyright",
-			"ts_ls",
-			"gopls",
-			"bashls",
-			"jsonls",
-			"kotlin_lsp",
-			"jdtls",
-			"clangd",
-			"rust_analyzer",
-			"yamlls",
-			"dockerls",
-			"docker_compose_language_service",
-			"html",
-			"cssls",
-			"tailwindcss",
-			-- eslint removed: using eslint_d via nvim-lint instead
-		},
-	},
-	dependencies = {
-		{ "mason-org/mason.nvim", opts = {} },
-		"neovim/nvim-lspconfig",
-	},
-	config = function(_, opts)
-		require("mason-lspconfig").setup(opts)
-
+	-- LSP servers are installed by Nix (home.nix), NOT Mason. nvim-lspconfig
+	-- supplies each server's default cmd/root_markers/filetypes; vim.lsp.enable
+	-- starts them and finds the binaries on PATH (the Nix profile).
+	config = function()
 		-- Global capabilities from blink.cmp for all servers
 		vim.lsp.config("*", {
 			capabilities = require("blink.cmp").get_lsp_capabilities(),
@@ -44,10 +20,22 @@ return {
 		})
 
 		vim.lsp.config("gopls", {
+			-- Prefer go.work so the whole workspace shares ONE gopls rooted at the
+			-- workspace dir; otherwise each submodule go.mod becomes its own root
+			-- and cross-module navigation breaks.
+			root_markers = { "go.work", ".git", "go.mod" },
 			settings = {
 				gopls = {
 					staticcheck = true,
 					usePlaceholders = true,
+					analyses = {
+						unusedparams = true,
+						nilness = true,
+						unusedwrite = true,
+						useany = true,
+					},
+					directoryFilters = { "-.git", "-node_modules", "-vendor" },
+					semanticTokens = true,
 				},
 			},
 		})
@@ -71,11 +59,32 @@ return {
 			},
 		})
 
+		-- ts_ls advertises inlay-hint capability but emits nothing unless these
+		-- preferences are set; this turns on inline type/param/return hints.
+		local ts_inlay_hints = {
+			includeInlayParameterNameHints = "all",
+			includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+			includeInlayFunctionParameterTypeHints = true,
+			includeInlayVariableTypeHints = true,
+			includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+			includeInlayPropertyDeclarationTypeHints = true,
+			includeInlayFunctionLikeReturnTypeHints = true,
+			includeInlayEnumMemberValueHints = true,
+		}
+		vim.lsp.config("ts_ls", {
+			settings = {
+				typescript = { inlayHints = ts_inlay_hints },
+				javascript = { inlayHints = ts_inlay_hints },
+			},
+		})
+
 		-- Enable all servers
 		vim.lsp.enable({
 			"lua_ls", "pyright", "ts_ls", "gopls", "bashls", "jsonls",
-			"kotlin_lsp", "clangd", "rust_analyzer", "yamlls", "dockerls",
+			"kotlin_language_server", "clangd", "rust_analyzer", "yamlls", "dockerls",
 			"docker_compose_language_service", "html", "cssls", "tailwindcss",
+			"buf_ls", -- proto LSP; buf binary from Nix (home.nix)
+			"starpls", -- Starlark/Bazel LSP; binary from Nix (home.nix)
 		})
 
 		-- LSP keymaps on attach
