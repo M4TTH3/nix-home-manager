@@ -1,13 +1,9 @@
--- Make sure to setup `mapleader` and `maplocalleader` before
--- loading lazy.nvim so that mappings are correct.
--- This is also a good place to setup other settings (vim.opt)
+-- Leaders must be set before lazy.nvim loads
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
--- mini.pairs auto-closes ', which fights Rust lifetimes ('a). Disable single-quote
--- pairing in Rust buffers. (Char literals like 'a' lose autoclose — fine tradeoff.)
--- Registered here (not in the lazy-loaded mini.pairs spec) so it survives the
--- plugin's InsertEnter lazy-load; a buffer-local map overrides mini.pairs' global.
+-- Disable mini.pairs' single-quote pairing in Rust (fights lifetimes like 'a).
+-- Buffer-local map here so it survives the plugin's lazy InsertEnter load.
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "rust",
 	callback = function()

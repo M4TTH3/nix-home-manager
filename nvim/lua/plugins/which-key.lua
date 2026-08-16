@@ -1,11 +1,7 @@
 return {
 	"folke/which-key.nvim",
 	event = "VeryLazy",
-	opts = {
-		-- your configuration comes here
-		-- or leave it empty to use the default settings
-		-- refer to the configuration section below
-	},
+	opts = {},
 	keys = {
 		{
 			"<leader>?",
@@ -37,11 +33,9 @@ return {
 			{ "<leader><leader>", group = "major" },
 		})
 
-		-- which-key v3 attaches its leader trigger per-buffer and drops it when a
-		-- picker/macro temporarily remaps <Space>, then sometimes fails to re-add it
-		-- (folke/which-key.nvim#783, #4841). It also skips attaching while a macro
-		-- records/replays. Result: popup dies mid-session, leaf maps still fire if
-		-- typed fast. Force a re-attach on the events where triggers get lost.
+		-- which-key v3 loses its per-buffer leader trigger when pickers/macros
+		-- remap <Space> (folke/which-key.nvim#783, #4841), killing the popup
+		-- mid-session. Force a re-attach on the events where triggers get lost.
 		local heal = vim.api.nvim_create_augroup("wk_reattach", { clear = true })
 		vim.api.nvim_create_autocmd({ "BufWinEnter", "RecordingLeave", "WinClosed" }, {
 			group = heal,

@@ -25,3 +25,24 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.wrap = false
 vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
+
+-- Reload buffers edited on disk by external tools (Claude Code, git, jj) so
+-- the buffer and LSP don't go stale. FocusGained needs tmux focus-events on
+-- (home.nix); CursorHold covers edits while focus never left (terminal split).
+vim.opt.autoread = true
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "TermClose", "TermLeave" }, {
+	group = vim.api.nvim_create_augroup("autoread_checktime", { clear = true }),
+	callback = function()
+		if vim.api.nvim_get_mode().mode ~= "c" and vim.bo.buftype == "" then
+			vim.cmd.checktime()
+		end
+	end,
+})
+
+-- Notify when a buffer was reloaded from disk
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+	group = vim.api.nvim_create_augroup("autoread_notify", { clear = true }),
+	callback = function(ev)
+		vim.notify("Reloaded from disk: " .. vim.fn.fnamemodify(ev.file, ":~:."), vim.log.levels.INFO)
+	end,
+})

@@ -9,9 +9,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Multi-target Rust toolchain. nixpkgs' rustc ships host std only, so it
-    # can't cross-compile to Linux from macOS. fenix lets us pull in the
-    # x86_64-unknown-linux-gnu rust-std alongside the host toolchain.
+    # Rust toolchains with extra targets — nixpkgs' rustc ships host std only,
+    # so it can't cross-compile to Linux from macOS
     fenix = {
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,27 +19,27 @@
 
   outputs = { nixpkgs, home-manager, fenix, ... }:
     let
-      mkHome = system: username: homeDirectory:
+      mkHome = { system, modules }:
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
             inherit system;
             config.allowUnfree = true;
             overlays = [ fenix.overlays.default ];
           };
-
-          modules = [
-            ./home.nix
-            {
-              home.username = username;
-              home.homeDirectory = homeDirectory;
-            }
-          ];
+          modules = [ ./home.nix ] ++ modules;
         };
     in {
+      # Keyed by username: a bare `home-manager switch` resolves
+      # "$USER@$hostname" then "$USER", so no `--flake .#name` needed
       homeConfigurations = {
-        "m4tth3-linux" = mkHome "x86_64-linux" "m4tth3" "/home/m4tth3";
-        "m4tth3-mac" = mkHome "aarch64-darwin" "matthew" "/Users/matthew";
+        "m4tth3" = mkHome {
+          system = "x86_64-linux";
+          modules = [ ./users/m4tth3.nix ];
+        };
+        "matthew" = mkHome {
+          system = "aarch64-darwin";
+          modules = [ ./users/matthew.nix ];
+        };
       };
     };
 }
-

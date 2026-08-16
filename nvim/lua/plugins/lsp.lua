@@ -1,9 +1,8 @@
 return {
 	"neovim/nvim-lspconfig",
 	lazy = false,
-	-- LSP servers are installed by Nix (home.nix), NOT Mason. nvim-lspconfig
-	-- supplies each server's default cmd/root_markers/filetypes; vim.lsp.enable
-	-- starts them and finds the binaries on PATH (the Nix profile).
+	-- Servers are installed by Nix (home.nix), not Mason; nvim-lspconfig
+	-- supplies each server's defaults and vim.lsp.enable finds them on PATH
 	config = function()
 		-- Global capabilities from blink.cmp for all servers
 		vim.lsp.config("*", {
@@ -20,9 +19,8 @@ return {
 		})
 
 		vim.lsp.config("gopls", {
-			-- Prefer go.work so the whole workspace shares ONE gopls rooted at the
-			-- workspace dir; otherwise each submodule go.mod becomes its own root
-			-- and cross-module navigation breaks.
+			-- Prefer go.work so the workspace shares one gopls root; per-module
+			-- go.mod roots break cross-module navigation
 			root_markers = { "go.work", ".git", "go.mod" },
 			settings = {
 				gopls = {

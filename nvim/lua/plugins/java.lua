@@ -5,10 +5,8 @@ return {
 	},
 	ft = "java",
 	config = function()
-		-- jdtls + debug/test bundles come from Nix (home.nix), not Mason:
-		--   jdtls binary -> on PATH (jdt-language-server)
-		--   bundles      -> JDTLS_DEBUG_DIR / JDTLS_TEST_DIR env vars
-		-- Collect debug/test bundles (optional — debug/test work only if present).
+		-- jdtls comes from Nix on PATH; optional debug/test bundles arrive via
+		-- the JDTLS_DEBUG_DIR / JDTLS_TEST_DIR env vars (set in home.nix)
 		local bundles = {}
 		local debug_dir = vim.env.JDTLS_DEBUG_DIR
 		if debug_dir and vim.fn.isdirectory(debug_dir) == 1 then
