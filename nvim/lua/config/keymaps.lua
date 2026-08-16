@@ -1,20 +1,3 @@
--- Leaders must be set before lazy.nvim loads
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
-
--- Disable mini.pairs' single-quote pairing in Rust (fights lifetimes like 'a).
--- Buffer-local map here so it survives the plugin's lazy InsertEnter load.
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "rust",
-	callback = function()
-		vim.keymap.set("i", "'", "'", { buffer = true })
-	end,
-})
-
--- Disable netrw at the very start
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
 -- Clear search highlights
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 

@@ -58,8 +58,9 @@ return {
 						vim.keymap.set("n", keys, func, { buffer = bufnr, desc = "Java: " .. desc })
 					end
 
+					-- <leader>je, not jv: jv is the global terminal-split bind (snacks)
 					map("<leader>jo", jdtls.organize_imports, "Organize imports")
-					map("<leader>jv", jdtls.extract_variable, "Extract variable")
+					map("<leader>je", jdtls.extract_variable, "Extract variable")
 					map("<leader>jm", jdtls.extract_method, "Extract method")
 					map("<leader>jt", jdtls.test_nearest_method, "Run nearest test")
 					map("<leader>jT", jdtls.test_class, "Run test class")

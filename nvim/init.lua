@@ -1,4 +1,5 @@
-require("config.common")
+require("config.options")
 require("config.keymaps")
-
+require("config.autocmds")
+require("config.cheatsheet")
 require("config.lazy")

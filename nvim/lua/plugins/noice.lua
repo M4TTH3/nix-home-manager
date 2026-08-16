@@ -38,10 +38,7 @@ return {
 			},
 		},
 		llm = {
-			enabled = true,
-			provider = "claude",
-			model = "claude-sonnet-4-20250514",
-			api_key_env = "CLAUDE_API_KEY",
+			enabled = false,
 		},
 		presets = {
 			bottom_search = false,

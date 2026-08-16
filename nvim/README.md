@@ -78,7 +78,6 @@ See the full cheatsheet: `<Space><Space>?` or `:Cheatsheet`
 | `<Space>gg` | Lazygit |
 | `<Space>ha` | Harpoon add file |
 | `<C-1>` to `<C-4>` | Jump to harpoon file 1-4 |
-| `<Space>ic` | Open Claude Code |
 | `gd` | Go to definition |
 | `K` | Hover documentation |
 | `<Space>L` | Format buffer |

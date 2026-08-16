@@ -77,13 +77,6 @@ Leader key: `<Space>`
 | `<Space>xL`  | Location list       |
 | `<Space>xQ`  | Quickfix list       |
 
-## AI
-
-| Key          | Action              |
-|--------------|---------------------|
-| `<Space>ic`  | Open Claude Code    |
-| `<Space>is`  | Send to Claude (v)  |
-
 ## Quick Navigation (Flash)
 
 | Key  | Mode      | Action              |

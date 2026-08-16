@@ -25,11 +25,14 @@ return {
 				end)
 			end
 
-			-- Enable treesitter highlighting and indentation
+			-- Enable treesitter highlighting and indentation; only set indentexpr
+			-- in buffers that actually have a parser
 			vim.api.nvim_create_autocmd("FileType", {
-				callback = function()
-					pcall(vim.treesitter.start)
-					vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				group = vim.api.nvim_create_augroup("treesitter_start", { clear = true }),
+				callback = function(ev)
+					if pcall(vim.treesitter.start, ev.buf) then
+						vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+					end
 				end,
 			})
 
