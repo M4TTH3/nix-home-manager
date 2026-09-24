@@ -36,6 +36,10 @@
           system = "x86_64-linux";
           modules = [ ./users/m4tth3.nix ];
         };
+        "m4tth3@mattay-server" = mkHome {
+          system = "x86_64-linux";
+          modules = [ ./users/m4tth3.nix ./hosts/mattay-server.nix ];
+        };
         "matthew" = mkHome {
           system = "aarch64-darwin";
           modules = [ ./users/matthew.nix ];

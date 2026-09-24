@@ -11,6 +11,7 @@ Configurations are keyed by **username** (`m4tth3` on Ubuntu, `matthew` on macOS
 - `home.nix` — shared config for all machines (packages, programs, neovim, git behavior)
 - `users/m4tth3.nix` — Ubuntu identity: git/jj user, signing key, allowed_signers
 - `users/matthew.nix` — macOS/work identity, plus work-specific git/Go settings
+- `hosts/mattay-server.nix` — headless server overrides (no 1Password: git signs via forwarded SSH agent)
 - `nvim/` — inlined neovim config (linked to `~/.config/nvim` via `xdg.configFile`)
 
 ## Commands
